@@ -105,7 +105,7 @@ jobs:
 
     - name: Building kernel
       run: |
-       -export KBUILD_BUILD_USER="aliza"
+        export KBUILD_BUILD_USER="aliza"
         export KBUILD_BUILD_HOST="Github"
         make O=out vendor/alioth_defconfig PATH="${{ steps.tools.outputs.tools-folder }}/clang/bin:$PATH"
         make O=out CC=clang -j$(nproc --all) CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 LLVM_IAS=1
