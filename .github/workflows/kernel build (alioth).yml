@@ -8,7 +8,7 @@ on:
         required: false
       KERNEL_TREE:
         description: 'Kernel Tree'
-        default: 'https://github.com/AlirezaParsi/PocoF3'
+        default: 'https://github.com/AlirezaParsi/pocof3'
         required: true
       KERNEL_TREE_BRANCH:
         description: 'Kernel Tree Branch'
@@ -105,7 +105,7 @@ jobs:
 
     - name: Building kernel
       run: |
-        git submodule init && git submodule update
+        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs-4.19
         export ARCH=arm64
         export SUBARCH=ARM64
         export KBUILD_BUILD_USER="aliza"
