@@ -20,11 +20,11 @@ on:
         required: true
       ANYKERNEL_URL:
         description: 'AnyKernel Url (leave blank if you dont want AnyKernel)'
-        default: 'https://github.com/itisFarzin-Phone/AnyKernel3'
+        default: 'https://github.com/AlirezaParsi/F3ank'
         required: false
       ANYKERNEL_BRANCH:
         description: 'AnyKernel Branch (defaults to codename)'
-        default: 'alioth'
+        default: 'main'
         required: false
       CLANG_GIT_LINK:
         description: 'Clang Git URL'
@@ -75,8 +75,6 @@ jobs:
     - name: Prepare the build environment
       run: |
         sudo apt-get install flex libncurses5
-        git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-msm-redbull-4.19-android14 --depth=1
-        git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-msm-redbull-4.19-android14 --depth=1
         wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r536225.tar.gz -O clang.tar.gz
         mkdir clang
         tar -xf clang.tar.gz -C clang
@@ -126,9 +124,9 @@ jobs:
           anykernel_branch=${{ github.event.inputs.ANYKERNEL_BRANCH }}
         fi
         git clone --recursive --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} -b $anykernel_branch AnyKernel3
-        if [ -e "Image.gz-dtb" ]; then
-          cp -f Image.gz-dtb AnyKernel3
-        elif [ -e "Image.gz" ]; then
+        #if [ -e "Image.gz-dtb" ]; then
+          #cp -f Image.gz-dtb AnyKernel3
+        #if [ -e "Image.gz" ]; then
           cp -f Image.gz AnyKernel3
         fi
         name=FlashableKernel-${{ github.event.inputs.CODENAME }}${{ fromJSON('["", "-KSU"]')[fromJSON(github.event.inputs.ENABLE_KERNELSU)] }}.zip
@@ -148,7 +146,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz-dtb
+          #${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz-dtb
           ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz
           ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/${{ steps.anykernel.outputs.zipname }}
         name: ${{ github.event.inputs.CODENAME }}-${{ github.run_id }}
@@ -163,17 +161,17 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: actions/upload-artifact@v4
-      if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
-      with:
-        name: Image.gz-dtb
-        path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz-dtb
+    #- uses: actions/upload-artifact@v4
+    #  if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
+     # with:
+      #  name: Image.gz-dtb
+       # path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz-dtb
 
-    - uses: actions/upload-artifact@v4
-      if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
-      with:
-        name: Image-dtb
-        path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image-dtb
+   # - uses: actions/upload-artifact@v4
+     # if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
+     # with:
+      #  name: Image-dtb
+       # path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image-dtb
 
     - uses: actions/upload-artifact@v4
       if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
@@ -181,11 +179,11 @@ jobs:
         name: Image.gz
         path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz
 
-    - uses: actions/upload-artifact@v4
-      if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
-      with:
-        name: Image
-        path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image
+   # - uses: actions/upload-artifact@v4
+    #  if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
+      #with:
+    #    name: Image
+      #  path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image
 
     - uses: actions/upload-artifact@v4
       if: ${{ success() && github.event.inputs.ANYKERNEL_URL != '' && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
