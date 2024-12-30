@@ -126,7 +126,7 @@ jobs:
         git clone --recursive --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} -b $anykernel_branch AnyKernel3
         #if [ -e "Image.gz-dtb" ]; then
           #cp -f Image.gz-dtb AnyKernel3
-        #if [ -e "Image.gz" ]; then
+        if [ -e "Image.gz" ]; then
           cp -f Image.gz AnyKernel3
         fi
         name=FlashableKernel-${{ github.event.inputs.CODENAME }}${{ fromJSON('["", "-KSU"]')[fromJSON(github.event.inputs.ENABLE_KERNELSU)] }}.zip
