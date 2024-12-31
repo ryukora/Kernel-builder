@@ -40,6 +40,8 @@ jobs:
           cd clang
           git init 
           git add .
+          git config --global user.email alirezanajmabadi79@gmail.com
+          git config --global user.name AlirezaParsi
           git branch -m master
           git commit -m "test"
           git push orgin mater --force
