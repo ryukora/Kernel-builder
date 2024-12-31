@@ -40,6 +40,7 @@ jobs:
           cd clang
           git init 
           git add . 
+          git branch -m master
           git commit -M "test"
           git push 
         
