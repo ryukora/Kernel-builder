@@ -39,8 +39,8 @@ jobs:
           tar -xf clang.tar.gz -C clang
           cd clang
           git init 
-          git add . 
+          git add .
           git branch -m master
-          git commit -M "test"
-          git push 
+          git commit -m "test"
+          git push orgin mater --force
         
